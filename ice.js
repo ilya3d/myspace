@@ -5,9 +5,24 @@
  */
 var ICE = (function(eng){
 
+    var display = {};
+
+    eng.ctx = {};
+
+    eng.viewW = 0;
+    eng.viewH = 0;
+
+    eng.world = {};
+
 
     function init() {
         // todo init
+        display = document.getElementById("display");
+        eng.viewW = display.width = document.documentElement.clientWidth;
+        eng.viewH = display.height = document.documentElement.clientHeight;
+        eng.ctx = display.getContext("2d");
+        // todo eng.mouse.init();
+        // todo eng.particles.init();
     }
 
 
