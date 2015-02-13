@@ -16,23 +16,30 @@ var ICE = (function(eng){
 
 
     function init() {
-        // todo init
+
         display = document.getElementById("display");
         eng.viewW = display.width = document.documentElement.clientWidth;
         eng.viewH = display.height = document.documentElement.clientHeight;
         eng.ctx = display.getContext("2d");
         // todo eng.mouse.init();
         // todo eng.particles.init();
+
+        if ( !eng.world )
+            return false;
+
+        eng.world.init();
+
+        return true;
     }
 
 
     function update() {
-        // todo world.update
+        return eng.world.update();
     }
 
 
     function draw() {
-        // todo world.draw
+        eng.world.draw();
     }
 
 
@@ -42,21 +49,76 @@ var ICE = (function(eng){
         if ( update() ) draw();
 
         var end = new Date();
-        time_ex = (end.getTime()-start.getTime());
-        //console.log(time_ex);
+        var time_ex = (end.getTime()-start.getTime());
+        eng.draw.text( time_ex, 10, 10, 10 );
     }
 
 
     eng.go = function() {
         window.onload = function() {
-            init();
-            setInterval( function(){ loop(); }, 50 );
+            if ( init() )
+                setInterval( function(){ loop(); }, 50 );
         }
     };
 
     eng.addWorld = function( module ) {
-        // todo eng.world = module;
+        eng.world = module;
     };
+
+
+    /***** DRAW *****/
+    function ManagerDraw() {
+
+        this.text = function( text, x, y, font_size ) {
+            if ( !font_size ) font_size = 6;
+            eng.ctx.font = 'bold ' + font_size + 'px Tahoma';
+            eng.ctx.textAlign = 'left';
+            eng.ctx.textBaseline = 'top';
+            eng.ctx.fillStyle = '#FFF';
+            eng.ctx.fillText( text, x, y );
+        };
+    }
+
+
+    /***** TEXTURES *****/
+    function ManagerTextures() {
+
+        this.count = 0;
+        this.textures = {};
+
+        this.load = function( name, file ) {
+            var img = new Image();
+            img.src = file;
+            img.onload = function() {};
+            this.count++;
+            this.textures[name] = img;
+        };
+
+        this.draw = function( name, x, y, w, h ) {
+            eng.ctx.drawImage( this.textures[name], x - w / 2, y - h / 2, w, h );
+        };
+
+        this.drawFull = function( name, x, y, w, h, cw, ch ) {
+
+            for ( var i = 0; i < cw; i++ )
+                for ( var j = 0; j < ch; j++ )
+                    eng.ctx.drawImage( this.textures[name], x + w * i, y + h * j, w, h );
+
+        };
+
+        this.drawRect = function( name, x, y, w, h ) {
+            eng.ctx.drawImage( this.textures[name], x, y, w, h );
+        };
+
+
+    }
+
+
+    // draw manager
+    eng.draw = new ManagerDraw();
+
+    // texture manager
+    eng.texture = new ManagerTextures();
 
 
     return eng;
