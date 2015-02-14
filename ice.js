@@ -12,7 +12,7 @@ var ICE = (function(eng){
     eng.viewW = 0;
     eng.viewH = 0;
 
-    eng.world = {};
+    eng.app = {};
 
 
     function init() {
@@ -24,22 +24,27 @@ var ICE = (function(eng){
         // todo eng.mouse.init();
         // todo eng.particles.init();
 
-        if ( !eng.world )
+        eng.input.init();
+
+        if ( !eng.app )
             return false;
 
-        eng.world.init();
+        eng.app.init();
 
         return true;
     }
 
 
     function update() {
-        return eng.world.update();
+
+        eng.input.update();
+
+        return eng.app.update();
     }
 
 
     function draw() {
-        eng.world.draw();
+        eng.app.draw();
     }
 
 
@@ -57,12 +62,12 @@ var ICE = (function(eng){
     eng.go = function() {
         window.onload = function() {
             if ( init() )
-                setInterval( function(){ loop(); }, 50 );
+                setInterval( function(){ loop(); }, 500 );
         }
     };
 
-    eng.addWorld = function( module ) {
-        eng.world = module;
+    eng.setApp = function( module ) {
+        eng.app = module;
     };
 
 
@@ -113,13 +118,36 @@ var ICE = (function(eng){
 
     }
 
+    /***** KEYBOARD/MOUSE *****/
+    eng.input = {
+
+        key: 0,
+
+        init: function() {
+            document.onkeydown = this.keyDown;
+        },
+
+        keyDown: function( e ) {
+            eng.input.key = e.keyCode;
+            // fixme this.key and eng.input.key
+        },
+
+        update: function() {
+            //this.key += 1;
+        },
+
+        getKey: function() {
+            return this.key;
+        }
+
+    };
+
 
     // draw manager
     eng.draw = new ManagerDraw();
 
     // texture manager
     eng.texture = new ManagerTextures();
-
 
     return eng;
 
