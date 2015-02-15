@@ -2,6 +2,8 @@
 /**
  * Ilya Canvas Engine
  * version: 0.0
+ * todo obj ctx: draw and params
+ * todo extends: texture, mouse, particles, ...
  */
 var ICE = (function(eng){
 
