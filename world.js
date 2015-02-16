@@ -4,7 +4,7 @@
     var Player = {
         name:'hohoho',
         texture: 'enemy',
-        x:100, y: 250, w:16, h:16,
+        x:100, y: 250, w:32, h:32,
         alp: 0,
         v: 0,
         v_max: 4,
@@ -12,14 +12,14 @@
         update: function() {
 
 
-            if ( ICE.input.key == 37 )
+            if ( ICE.input.keyPress(37) )
                 this.alp -= 2;
-            if ( ICE.input.key == 39 )
+            if ( ICE.input.keyPress(39) )
                 this.alp += 2;
 
-            if ( ICE.input.key == 38 && this.v < this.v_max )
+            if ( ICE.input.keyPress(38) && this.v < this.v_max )
                 this.v += this.v_add;
-            if ( ICE.input.key == 40 && this.v > this.v_add )
+            if ( ICE.input.keyPress(40) && this.v > this.v_add )
                 this.v -= this.v_add;
 
             this.x += this.v * Math.cos( this.alp * Math.PI / 180 );

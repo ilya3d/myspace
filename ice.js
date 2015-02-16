@@ -109,7 +109,7 @@ var ICE = (function(eng){
             eng.ctx.save();
             eng.ctx.translate( x, y );
             eng.ctx.rotate( alp * Math.PI / 180 );
-            eng.ctx.drawImage( this.textures[name], - w / 2, - h / 2, w / 2, h / 2 );
+            eng.ctx.drawImage( this.textures[name], - w / 2, - h / 2, w, h );
             eng.ctx.restore();
         };
 
@@ -131,23 +131,28 @@ var ICE = (function(eng){
     /***** KEYBOARD/MOUSE *****/
     eng.input = {
 
-        key: 0,
+        key: {},
 
         init: function() {
             document.onkeydown = this.keyDown;
+            document.onkeyup = this.keyUp;
         },
 
         keyDown: function( e ) {
-            eng.input.key = e.keyCode;
+            eng.input.key[e.keyCode] = true;
             // fixme this.key and eng.input.key
+        },
+
+        keyUp: function( e ) {
+            eng.input.key[e.keyCode] = false;
         },
 
         update: function() {
             //this.key += 1;
         },
 
-        getKey: function() {
-            return this.key;
+        keyPress: function( key ) {
+            return eng.input.key[ key ] === true;
         }
 
     };
