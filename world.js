@@ -5,23 +5,31 @@
         name:'hohoho',
         texture: 'enemy',
         x:100, y: 250, w:16, h:16,
+        alp: 0,
+        v: 0,
+        v_max: 4,
+        v_add: 0.2,
         update: function() {
 
 
             if ( ICE.input.key == 37 )
-                this.x -= 10;
+                this.alp -= 2;
             if ( ICE.input.key == 39 )
-                this.x += 10;
-            if ( ICE.input.key == 38 )
-                this.y -= 10;
-            if ( ICE.input.key == 40 )
-                this.y += 10;
+                this.alp += 2;
+
+            if ( ICE.input.key == 38 && this.v < this.v_max )
+                this.v += this.v_add;
+            if ( ICE.input.key == 40 && this.v > this.v_add )
+                this.v -= this.v_add;
+
+            this.x += this.v * Math.cos( this.alp * Math.PI / 180 );
+            this.y += this.v * Math.sin( this.alp * Math.PI / 180 );
 
             return true;
         },
 
         draw: function() {
-            ICE.texture.drawRect( 'player', this.x, this.y, this.w, this.h );
+            ICE.texture.drawRot( 'player', this.x, this.y, this.w, this.h, this.alp );
         }
     };
 

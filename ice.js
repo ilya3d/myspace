@@ -64,7 +64,7 @@ var ICE = (function(eng){
     eng.go = function() {
         window.onload = function() {
             if ( init() )
-                setInterval( function(){ loop(); }, 500 );
+                setInterval( function(){ loop(); }, 50 );
         }
     };
 
@@ -103,6 +103,14 @@ var ICE = (function(eng){
 
         this.draw = function( name, x, y, w, h ) {
             eng.ctx.drawImage( this.textures[name], x - w / 2, y - h / 2, w, h );
+        };
+
+        this.drawRot = function( name, x, y, w, h, alp ) {
+            eng.ctx.save();
+            eng.ctx.translate( x, y );
+            eng.ctx.rotate( alp * Math.PI / 180 );
+            eng.ctx.drawImage( this.textures[name], - w / 2, - h / 2, w / 2, h / 2 );
+            eng.ctx.restore();
         };
 
         this.drawFull = function( name, x, y, w, h, cw, ch ) {
