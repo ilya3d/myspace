@@ -30,6 +30,15 @@ var UnitPrototype = (function(){
             return Math.sqrt( (x - this.x)*(x - this.x) + (y - this.y)*(y - this.y) );
         };
 
+        this.getAngle = function( x, y ) {
+            var dx = x - this.x;
+            var dy = y - this.y;
+            if ( dx == 0 ) return ( dy > 0 ) ? 180 : 0;
+            var a = Math.atan( dy / dx ) * 180 / Math.PI;
+            a = ( dx > 0 ) ? a : a + 180;
+            return a;
+        }
+
     };
 
     return unit;
@@ -82,6 +91,8 @@ var Collection = (function(){
                 this.Units[curType] = [];
 
             this.Units[curType].push( newUnit );
+
+            return newUnit;
         }
 
     }
