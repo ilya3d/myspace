@@ -20,9 +20,10 @@ var UnitPrototype = (function(){
 
             this.apply( obj );
             this.apply( params );
+            this.preInit()
 
-            this.atInit();
-        }
+            //this.atInit();
+        };
 
     };
 
@@ -34,9 +35,6 @@ var Collection = (function(){
     return {
 
         Units: [],
-
-        init: function() {
-        },
 
         update: function() {
 
@@ -61,7 +59,7 @@ var Collection = (function(){
                 if ( this.Units[curType] != undefined )
                     this.Units[curType].forEach(function(u){
                         if ( u )
-                            u.draw( curWorld.Map.vX, curWorld.Map.vY, curWorld.Map.vW, curWorld.Map.vH );
+                            u.draw();
                     });
 
             }
