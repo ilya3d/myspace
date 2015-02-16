@@ -52,6 +52,26 @@
     };
 
 
+    var Bonus = {
+        x: 0, y: 0, r: 10,
+        texture: 'bonus',
+        dead: false,
+        preInit: function() {
+            ICE.texture.load( 'bonus', '4.png' );
+        },
+        draw: function() {
+            if ( !this.dead )
+                ICE.texture.drawRect( this.texture, this.x-this.r, this.y-this.r, 2*this.r, 2*this.r );
+        },
+        update: function() {
+            if ( !this.dead ) {
+                if ( this.getDistance(Game.player.x, Game.player.y) < 10 )
+                    this.dead = true;
+            }
+        }
+    };
+
+
     var Game = {
 
         units: null,
@@ -66,6 +86,11 @@
             this.units = Collection;
             this.units.addUnit( Planet, {x: 300, y: 300, m: 1000, r: 20} );
             this.units.addUnit( Planet, {x: 700, y: 200, m: 2000, r: 38} );
+
+            this.units.addUnit( Bonus, {x: 500, y: 500} );
+            this.units.addUnit( Bonus, {x: 100, y: 300} );
+            this.units.addUnit( Bonus, {x: 400, y: 370} );
+            this.units.addUnit( Bonus, {x: 500, y: 120} );
 
             this.player = Player;
             this.map = Map;

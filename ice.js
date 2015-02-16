@@ -94,6 +94,10 @@ var ICE = (function(eng){
         this.textures = {};
 
         this.load = function( name, file ) {
+
+            if ( this.textures[name] )
+                return true;
+
             var img = new Image();
             img.src = file;
             img.onload = function() {};

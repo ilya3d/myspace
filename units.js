@@ -25,6 +25,11 @@ var UnitPrototype = (function(){
             //this.atInit();
         };
 
+        this.getDistance = function( x, y ) {
+
+            return Math.sqrt( (x - this.x)*(x - this.x) + (y - this.y)*(y - this.y) );
+        };
+
     };
 
     return unit;
