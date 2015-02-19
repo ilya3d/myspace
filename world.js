@@ -6,8 +6,10 @@
         texture: 'enemy',
         x:100, y: 250, w:32, h:32,
         gx: 0, gy: 0,
+        a: 0, a_max: 0.1,
         alp: 0,
         v: 0,
+        vx: 0, vy: 0,
         v_max: 4,
         v_add: 0.2,
         preInit: function(){
@@ -21,16 +23,20 @@
             if ( ICE.input.keyPress(39) )
                 this.alp += 2;
 
-            if ( ICE.input.keyPress(38) && this.v < this.v_max )
-                this.v += this.v_add;
-            if ( ICE.input.keyPress(40) && this.v > this.v_add )
-                this.v -= this.v_add;
+            this.a = 0;
+            if ( ICE.input.keyPress(38) )
+                this.a = this.a_max;
+            if ( ICE.input.keyPress(40) )
+                this.a = - this.a_max;
 
-            this.x += this.v * Math.cos( this.alp * Math.PI / 180 );
-            this.y += this.v * Math.sin( this.alp * Math.PI / 180 );
+            //this.ax = this.a_add * Math.cos( this.alp * Math.PI / 180 );
+            this.vx += this.a * Math.cos( this.alp * Math.PI / 180 ) + this.gx * 0.01;
+            this.vy += this.a * Math.sin( this.alp * Math.PI / 180 ) + this.gy * 0.01;
 
-            this.x += this.gx;
-            this.y += this.gy;
+            this.v = Math.sqrt( this.vx*this.vx + this.vy*this.vy );
+
+            this.x += this.vx;
+            this.y += this.vy;
 
             this.gx = 0;//Math.cos( this.alp * Math.PI / 180 );
             this.gy = 0;//Math.sin( this.alp * Math.PI / 180 );
@@ -144,8 +150,11 @@
             this.player.draw();
             ICE.draw.text( 'mySpace', 100, 10, 16 );
             ICE.draw.text( 'v: ' + this.player.v, 10, 100, 10 );
-            ICE.draw.text( 'gx: ' + this.player.gx, 10, 120, 10 );
-            ICE.draw.text( 'gy: ' + this.player.gy, 10, 132, 10 );
+            ICE.draw.text( 'vx: ' + this.player.vx, 10, 110, 10 );
+            ICE.draw.text( 'vy: ' + this.player.vy, 10, 120, 10 );
+            ICE.draw.text( 'a: ' + this.player.a, 10, 130, 10 );
+            ICE.draw.text( 'gx: ' + this.player.gx, 10, 200, 10 );
+            ICE.draw.text( 'gy: ' + this.player.gy, 10, 210, 10 );
         }
 
     };
