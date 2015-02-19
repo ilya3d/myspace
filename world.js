@@ -6,7 +6,7 @@
         texture: 'enemy',
         x:100, y: 250, w:32, h:32,
         gx: 0, gy: 0,
-        a: 0, a_max: 0.1,
+        a: 0, a_max: 0.03,
         alp: 0,
         v: 0,
         vx: 0, vy: 0,
@@ -30,8 +30,11 @@
                 this.a = - this.a_max;
 
             //this.ax = this.a_add * Math.cos( this.alp * Math.PI / 180 );
-            this.vx += this.a * Math.cos( this.alp * Math.PI / 180 ) + this.gx * 0.01;
-            this.vy += this.a * Math.sin( this.alp * Math.PI / 180 ) + this.gy * 0.01;
+            if ( this.gx > 1 ) this.gx = 1;
+            if ( this.gy > 1 ) this.gy = 1;
+
+            this.vx += this.a * Math.cos( this.alp * Math.PI / 180 ) + this.gx * 0.03;
+            this.vy += this.a * Math.sin( this.alp * Math.PI / 180 ) + this.gy * 0.03;
 
             this.v = Math.sqrt( this.vx*this.vx + this.vy*this.vy );
 
