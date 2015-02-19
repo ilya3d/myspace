@@ -39,7 +39,10 @@
         },
 
         draw: function() {
-            ICE.texture.drawRot( 'player', this.x, this.y, this.w, this.h, this.alp );
+
+            if ( ICE.app.map.isView( this.x, this.y ) )
+                ICE.texture.drawRot( 'player', this.x-ICE.app.map.x, this.y-ICE.app.map.y, this.w, this.h, this.alp );
+
         },
 
         addGrav: function( dx, dy ) {
@@ -59,7 +62,10 @@
             ICE.texture.load( 'planet', '3.png' );
         },
         draw: function() {
-            ICE.texture.drawRect( this.texture, this.x-this.r, this.y-this.r, 2*this.r, 2*this.r );
+
+            if ( ICE.app.map.isView( this.x, this.y ) )
+                ICE.texture.drawRect( this.texture, this.x-ICE.app.map.x-this.r, this.y-ICE.app.map.y-this.r, 2*this.r, 2*this.r );
+
         },
         update: function() {
             var ang = Game.player.getAngle(this.x, this.y);
@@ -80,8 +86,8 @@
             ICE.texture.load( 'bonus', '4.png' );
         },
         draw: function() {
-            if ( !this.dead )
-                ICE.texture.drawRect( this.texture, this.x-this.r, this.y-this.r, 2*this.r, 2*this.r );
+            if ( !this.dead && ICE.app.map.isView( this.x, this.y ) )
+                ICE.texture.drawRect( this.texture, this.x-ICE.app.map.x-this.r, this.y-ICE.app.map.y-this.r, 2*this.r, 2*this.r );
         },
         update: function() {
             if ( !this.dead ) {
@@ -125,6 +131,7 @@
 
             this.player.update();
             this.units.update();
+            this.map.updPos( this.player.x, this.player.y );
 
             return true;
         },
