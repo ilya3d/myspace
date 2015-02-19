@@ -33,8 +33,8 @@
             if ( this.gx > 1 ) this.gx = 1;
             if ( this.gy > 1 ) this.gy = 1;
 
-            this.vx += this.a * Math.cos( this.alp * Math.PI / 180 ) + this.gx * 0.03;
-            this.vy += this.a * Math.sin( this.alp * Math.PI / 180 ) + this.gy * 0.03;
+            this.vx += this.a * Math.cos( this.alp * Math.PI / 180 ) + this.gx;
+            this.vy += this.a * Math.sin( this.alp * Math.PI / 180 ) + this.gy;
 
             this.v = Math.sqrt( this.vx*this.vx + this.vy*this.vy );
 
@@ -79,10 +79,12 @@
         update: function() {
             var ang = Game.player.getAngle(this.x, this.y);
             var d = Game.player.getDistance(this.x, this.y);
-            var g = 10 * this.m / ( d * d );
-            var dx = g * Math.cos( ang * Math.PI / 180 );
-            var dy = g * Math.sin( ang * Math.PI / 180 );
-            Game.player.addGrav(dx, dy);
+            var g = this.m / ( d * d );
+            if ( d > this.r * 0.7 ) {
+                var dx = g * Math.cos( ang * Math.PI / 180 );
+                var dy = g * Math.sin( ang * Math.PI / 180 );
+                Game.player.addGrav(dx, dy);
+            }
         }
     };
 
