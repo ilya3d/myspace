@@ -6,7 +6,7 @@
         texture: 'enemy',
         x:100, y: 250, w:32, h:32,
         gx: 0, gy: 0,
-        a: 0, a_max: 0.03,
+        a: 0, a_max: 0.01,
         alp: 0,
         v: 0,
         vx: 0, vy: 0,
@@ -26,8 +26,14 @@
             this.a = 0;
             if ( ICE.input.keyPress(38) )
                 this.a = this.a_max;
-            if ( ICE.input.keyPress(40) )
-                this.a = - this.a_max;
+            if ( ICE.input.keyPress(32) )
+                this.a = this.a_max * 10;
+            if ( ICE.input.keyPress(40) ) {
+                //this.a = - this.a_max;
+                this.vx *= 0.9;
+                this.vy *= 0.9;
+            }
+
 
             //this.ax = this.a_add * Math.cos( this.alp * Math.PI / 180 );
             if ( this.gx > 1 ) this.gx = 1;
@@ -80,10 +86,21 @@
             var ang = Game.player.getAngle(this.x, this.y);
             var d = Game.player.getDistance(this.x, this.y);
             var g = this.m / ( d * d );
-            if ( d > this.r * 0.7 ) {
+            if ( d > this.r * 0.8 ) {
                 var dx = g * Math.cos( ang * Math.PI / 180 );
                 var dy = g * Math.sin( ang * Math.PI / 180 );
                 Game.player.addGrav(dx, dy);
+            } else {
+                Game.player.vx = 0;
+                Game.player.vx = 0;
+            }
+            // trenie
+            if ( d < 2 * this.r && Game.player.v > 1.5 ) {
+                Game.player.vx *= 0.99;
+                Game.player.vy *= 0.99;
+                //var dx = 0.1 * g * Math.cos( (ang+90) * Math.PI / 180 );
+                //var dy = 0.1 * g * Math.sin( (ang+90) * Math.PI / 180 );
+                //Game.player.addGrav(dx, dy);
             }
         }
     };
@@ -124,9 +141,10 @@
 
             this.player = this.units.addUnit( Player, {} );
 
-            this.units.addUnit( Planet, {x: 300, y: 600, m: 1000, r: 20} );
-            this.units.addUnit( Planet, {x: 700, y: 200, m: 2000, r: 40} );
-            this.units.addUnit( Planet, {x: 900, y: 500, m: 3000, r: 60} );
+            this.units.addUnit( Planet, {x: 0, y: 600, m: 100, r: 20} );
+            this.units.addUnit( Planet, {x: 700, y: 100, m: 200, r: 40} );
+            this.units.addUnit( Planet, {x: 900, y: 500, m: 300, r: 60} );
+            this.units.addUnit( Planet, {x: 900, y: 1000, m: 1000, r: 200} );
 
             this.units.addUnit( Bonus, {x: 500, y: 500} );
             this.units.addUnit( Bonus, {x: 100, y: 300} );
